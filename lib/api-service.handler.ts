@@ -59,6 +59,36 @@ export const handler = async (
 
     if (data.length !== 0 || data) {
       if (event.queryStringParameters) {
+        // filter by bank name, date, and type
+        const { filterby, name } = event.queryStringParameters
+        if (filterby && name) {
+          switch (filterby) {
+            case "bank":
+              payload = data.filter((item) => item.bank === name)
+              break
+            case "date":
+              payload = data.filter((item) => dateParser(item.date) === name)
+              break
+            case "type":
+              switch (name) {
+                case "bank-notes":
+                  payload = data.filter((item) => item.type === "bank notes")
+                  break
+                case "dd-tt":
+                  payload = data.filter((item) => item.type === "dd/tt")
+                  break
+                case "special-rates":
+                  payload = data.filter((item) => item.type === "special rates")
+                  break
+                default:
+                  break
+              }
+              break
+            default:
+              break
+          }
+        }
+
         // pagination
         const { page, limit } = event.queryStringParameters
         if (page && limit) {
