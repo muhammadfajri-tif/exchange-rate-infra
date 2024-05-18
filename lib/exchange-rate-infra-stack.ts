@@ -1,16 +1,20 @@
-import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { Stack, StackProps } from 'aws-cdk-lib'
+import { Construct } from 'constructs'
+import { APIServiceStack, APIServiceStackProps } from './api-service';
 
-export class ExchangeRateInfraStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+export interface ExchangeRateInfraStackProps extends StackProps {
+  apiServiceConfig: APIServiceStackProps
+}
+
+export class ExchangeRateInfraStack extends Stack {
+  public readonly apiService: APIServiceStack
+
+  constructor(scope: Construct, id: string, props: ExchangeRateInfraStackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    const { apiServiceConfig } = props
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'ExchangeRateInfraQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    // API Service
+    this.apiService = new APIServiceStack(this, "ApiService", apiServiceConfig)
   }
 }
