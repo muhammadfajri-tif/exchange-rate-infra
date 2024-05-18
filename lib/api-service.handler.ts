@@ -96,12 +96,16 @@ export const handler = async (
           const end = start + Number(limit)
           payload = payload.slice(start, end)
         }
+        body = {
+          payload,
+        }
+      } else {
+        body = {
+          payload: data,
+        }
       }
 
       statusCode = 200
-      body = {
-        payload,
-      }
     } else {
       statusCode = 404
       body = {
