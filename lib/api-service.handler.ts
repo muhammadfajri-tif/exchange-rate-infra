@@ -21,7 +21,7 @@ interface ExchangeRate {
   }
 }
 
-const client = new S3Client({ region: String(process.env.REGION) })
+const client = new S3Client()
 
 const getDataFromS3 = async (): Promise<ExchangeRate[]> => {
   const appEnv =
@@ -36,7 +36,7 @@ const getDataFromS3 = async (): Promise<ExchangeRate[]> => {
     const response = await client.send(command)
     const payload = await response.Body?.transformToString()
 
-    return payload ? JSON.parse(payload) : ""
+    return JSON.parse(payload || "")
   } catch (err) {
     console.error("Error when retrieve data from S3.", err)
 
