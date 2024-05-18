@@ -48,19 +48,28 @@ export const handler = async (
   event: APIGatewayProxyEventV2WithRequestContext<any>,
   context: Context
 ) => {
+  console.log("[HANDLER]", event)
   let statusCode
   let body
   const headers = {
     "Content-Type": "application/json",
   }
-
   try {
     const data = await getDataFromS3()
+    let payload = data
 
     if (data.length !== 0 || data) {
+      if (event.queryStringParameters) {
+        // pagination
+        const { page, limit } = event.queryStringParameters
+        const start = (Number(page) - 0) * Number(limit)
+        const end = start + Number(limit)
+        payload = payload.slice(start, end)
+      }
+
       statusCode = 200
       body = {
-        payload: data,
+        payload,
       }
     } else {
       statusCode = 404
@@ -69,6 +78,14 @@ export const handler = async (
       }
     }
 
+    console.log(
+      `[HANDLER] ${
+        statusCode === 200
+          ? "Success Retrieve Data from S3 and Invoke Function."
+          : "Success Invoking Function but there's no data from S3."
+      }`
+    )
+
     const response = {
       isBase64Encoded: false,
       multiValueHeaders: null,
@@ -76,13 +93,6 @@ export const handler = async (
       headers,
       body: JSON.stringify(body),
     }
-    console.log(
-      `[HANDLER] ${
-        statusCode === 200
-          ? "Success Retrieve Data from S3 and Invoke Function."
-          : "Failed."
-      }`
-    )
     return response
   } catch (err) {
     console.error("[API Service]", err)
@@ -97,4 +107,13 @@ export const handler = async (
     }
     return response
   }
+}
+
+function dateParser(date: number) {
+  const newDate = new Date(date)
+  const day = newDate.getDate()
+  const month = newDate.getMonth()
+  const year = newDate.getFullYear()
+
+  return `${day}-${month}-${year}`
 }
