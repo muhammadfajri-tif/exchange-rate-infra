@@ -48,7 +48,6 @@ export const handler = async (
   event: APIGatewayProxyEventV2WithRequestContext<any>,
   context: Context
 ) => {
-  console.log("[HANDLER]", event)
   let statusCode
   let body
   const headers = {
@@ -62,9 +61,11 @@ export const handler = async (
       if (event.queryStringParameters) {
         // pagination
         const { page, limit } = event.queryStringParameters
-        const start = (Number(page) - 0) * Number(limit)
-        const end = start + Number(limit)
-        payload = payload.slice(start, end)
+        if (page && limit) {
+          const start = (Number(page) - 0) * Number(limit)
+          const end = start + Number(limit)
+          payload = payload.slice(start, end)
+        }
       }
 
       statusCode = 200
