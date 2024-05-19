@@ -30,6 +30,7 @@ const getDataFromS3 = async (): Promise<ExchangeRate[]> => {
   const command = new GetObjectCommand({
     Bucket: process.env.BUCKET_NAME,
     Key: `${appEnv}/scraping/exchange-rates.json`,
+    ResponseContentType: "application/json",
   })
 
   try {
