@@ -1,10 +1,11 @@
-# Welcome to your CDK TypeScript project
+# Infrastructure for Exchange Rate
 
-This is a blank project for CDK development with TypeScript.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+Infrastructure-as-a-Code (IaaC) for provisioning required Infrastructure in production stage and API service for Exchange Rate App. Written in TypeScript. Powered by [AWS CDK](https://aws.amazon.com/cdk/).
 
 ## Useful commands
+
+> [!NOTE]
+> The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 * `npm run build`   compile typescript to js
 * `npm run watch`   watch for changes and compile
