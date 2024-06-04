@@ -1,6 +1,6 @@
 # Infrastructure for Exchange Rate
 
-Infrastructure-as-a-Code (IaaC) for provisioning required Infrastructure in production stage and API service for Exchange Rate App. Written in TypeScript. Powered by [AWS CDK](https://aws.amazon.com/cdk/).
+Infrastructure-as-a-Code (IaaC) for provisioning required Infrastructure and API service for Exchange Rate App. Used in the production stage. Written in TypeScript. Powered by [AWS CDK](https://aws.amazon.com/cdk/).
 
 ## Useful commands
 
